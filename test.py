@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import edgarquery as eq
 import json
 
