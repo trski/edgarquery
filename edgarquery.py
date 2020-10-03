@@ -6,14 +6,14 @@ from bs4 import BeautifulSoup
 
 
 BASE_URL = 'https://www.sec.gov'
-RSS_URL = BASE_URL + (
-    '/cgi-bin/browse-edgar?action=getcompany'
+RSS_URL = (
+    '{}/cgi-bin/browse-edgar?action=getcompany'
     '&CIK={}&type={}&dateb=&owner=exclude'
     '&count={}&output=atom'
 )
 
 def get_rss_url(sym, filing_type, atom_count=500):
-    url = RSS_URL.format(sym, filing_type, atom_count)
+    url = RSS_URL.format(BASE_URL, sym, filing_type, atom_count)
     return url
 
 
