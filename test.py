@@ -1,4 +1,6 @@
-import edgarquery as eq
+#!/usr/bin/env python
+
+from edgarquery import EdgarQuery
 import json
 
 
@@ -9,7 +11,8 @@ args = [
 ]
 
 def test_get_matches():
-    link = eq.get_filing_url(*args)
+    eq = EdgarQuery(*args[0:2])
+    link = eq.get_filing_url(args[2])
     assert link is not None
     m = eq.get_xbrl_url(link)
     assert len(m) > 0
@@ -17,7 +20,8 @@ def test_get_matches():
 
 
 def test_get_filing_keys():
-    m = eq.get_filing(*args)
+    eq = EdgarQuery(*args[0:2])
+    m = eq.get_filing(args[2])
     assert m is not None
     keys = list(m['xbrl'].keys())
     keys.sort()
@@ -25,7 +29,8 @@ def test_get_filing_keys():
 
 
 def test_get_filing_assets():
-    m = eq.get_filing(*args)
+    eq = EdgarQuery(*args[0:2])
+    m = eq.get_filing(args[2])
     assert m is not None
     d = m['xbrl']
     assets = d['us-gaap:Assets']
