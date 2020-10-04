@@ -91,4 +91,5 @@ class EdgarQuery(object):
         res = requests.get(xbrl_url)
         txt = res.text
         m = xmltodict.parse(txt)
+        self.raw_xml = dict(m)
         return m
