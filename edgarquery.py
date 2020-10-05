@@ -13,6 +13,11 @@ RSS_URL = (
 )
 
 
+class Bunch(object):
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
+
+
 class EdgarQuery(object):
     def __init__(self, sym, filing_type):
         self.sym = sym
