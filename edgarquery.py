@@ -3,6 +3,7 @@ import requests
 import re
 import sys
 from bs4 import BeautifulSoup
+from datetime import datetime as dt
 
 
 BASE_URL = 'https://www.sec.gov'
@@ -16,6 +17,33 @@ RSS_URL = (
 class Bunch(object):
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
+
+
+def us_gaap_factory(model):
+    m = model['xbrl']
+    d = dict()
+    for key in m.keys():
+        if key.startswith('us-gaap'):
+            g = key.replace('us-gaap:', '')
+            h = m[key]
+            data = []
+            for x in h:
+                try:
+                    ref = x['@contextRef']
+                    p = ref.split('_')
+                    p = p[1]
+                    p = p.replace('I', '')
+                    ref = dt.strptime(p, '%Y%m%d')
+                    text = x.get('#text')
+                    amt = int(text)
+                    data.append(dict(ref=ref, amt=amt))
+                except KeyboardInterrupt:
+                    raise
+                except:
+                    continue
+            d[g] = data
+    b = Bunch(**d)
+    return b
 
 
 class EdgarQuery(object):
