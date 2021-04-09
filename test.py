@@ -8,23 +8,23 @@ import json
 
 
 args = [
-    'aapl',
+    'AAPL',
     '10-q',
     '2020-07-31'
 ]
 
 def test_get_matches():
-    eq = EdgarQuery(*args[0:2])
-    link = eq.get_filing_url(args[2])
+    ed = EdgarQuery(*args[0:2])
+    link = ed.get_filing_url(args[2])
     assert link is not None
-    m = eq.get_xbrl_url(link)
+    m = ed.get_xbrl_url(link)
     assert len(m) > 0
     print(m)
 
 
 def test_get_filing_keys():
-    eq = EdgarQuery(*args[0:2])
-    m = eq.get_filing(args[2])
+    ed = EdgarQuery(*args[0:2])
+    m = ed.get_filing(args[2])
     assert m is not None
     keys = list(m['xbrl'].keys())
     keys.sort()
@@ -32,8 +32,8 @@ def test_get_filing_keys():
 
 
 def test_get_us_gaap_keys():
-    eq = EdgarQuery(*args[0:2])
-    m = eq.get_filing(args[2])
+    ed = EdgarQuery(*args[0:2])
+    m = ed.get_filing(args[2])
     assert m is not None
     g = us_gaap_factory(m)
     keys = g.__dict__.keys()
@@ -42,8 +42,8 @@ def test_get_us_gaap_keys():
 
 
 def test_get_filing_assets():
-    eq = EdgarQuery(*args[0:2])
-    m = eq.get_filing(args[2])
+    ed = EdgarQuery(*args[0:2])
+    m = ed.get_filing(args[2])
     assert m is not None
     d = m['xbrl']
     assets = d['us-gaap:Assets']
@@ -54,6 +54,12 @@ def test_get_filing_assets():
     return True
 
 
-test_get_filing_assets()
-# test_get_filing_keys()
-# test_get_us_gaap_keys()
+def test_get_filing():
+    ed = EdgarQuery(*args[0:2])
+    dates = ed.get_filing_dates()
+    t = ed.get_filing(dates[0])
+    assert t is not None
+    return True
+
+
+test_get_filing()
