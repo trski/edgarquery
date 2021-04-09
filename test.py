@@ -54,6 +54,6 @@ def test_get_filing_assets():
     return True
 
 
-# test_get_filing_assets()
+test_get_filing_assets()
 # test_get_filing_keys()
-test_get_us_gaap_keys()
+# test_get_us_gaap_keys()
